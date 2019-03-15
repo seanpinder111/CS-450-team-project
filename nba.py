@@ -22,7 +22,7 @@ data.fillna(0.5, inplace=True)
 og_data = data.copy()
 
 # get the columns we're interested in
-real_data = data.drop(columns=['Season','Lg','Tm','Ht.','Finish','Wt.','G','MP'])
+real_data = data.drop(columns=['Season','Lg','Tm','Ht.','Finish','Wt.','G','MP','PLAYOFFS'])
 targets = data['PLAYOFFS']
 
 X = real_data.values
