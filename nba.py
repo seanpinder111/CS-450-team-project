@@ -40,6 +40,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 mlp = MLPClassifier(hidden_layer_sizes=(30,), learning_rate_init=0.01, max_iter=10000)
 mlp.fit(X_train, y_train)
 
+gnb = GaussianNB()
+gnbpredict= gnb.fit(X_train, y_train).predict(X_test)
+
 #################### PREDICTION ###################################
 predictions = mlp.predict(X_test)
 print(f"Accuracy is {accuracy_score(y_test, predictions)}")
