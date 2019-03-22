@@ -12,7 +12,7 @@ from sklearn import preprocessing
 
 
 #################### IMPORT DATASET ##############################
-data = pd.read_csv('nbaRaw.csv', 
+data = pd.read_csv('nbaNormalData.csv', 
                    index_col=False,
                    skipinitialspace=True,
                    na_values="nan"
@@ -22,7 +22,7 @@ data.fillna(0, inplace=True)
 og_data = data.copy()
 
 # get the columns we're interested in
-real_data = data.drop(columns=['Season','Lg','Tm','Finish','Wt.','Playoffs'])
+real_data = data.drop(columns=['Season','Lg','Tm','Playoffs'])
 targets = data['Playoffs']
 
 X = real_data.values
