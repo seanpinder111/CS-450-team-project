@@ -23,7 +23,10 @@ og_data = data.copy()
 
 # get the columns we're interested in
 real_data = data.drop(columns=['Season','Lg','Tm','Playoffs'])
+real_thisYear = thisYear.drop(columns=['Season','Lg','Tm'])
+teams= thisYear['Tm']
 targets = data['Playoffs']
+
 
 X = real_data.values
 y = targets.values
@@ -46,3 +49,7 @@ for x in range(len(predictions)):
         inaccuracy += abs(predictions[x]-y_test[x])
         #print("predicted ", predictions[x], "Acutally", y_test[x])
 print("Distance Accuracy is", 1-(inaccuracy/(len(predictions)*5)))
+
+playoffs= mlp.predict(real_thisYear)
+for y in range(len(playoffs)):
+    print(teams[y], ":", playoffs[y])
