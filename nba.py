@@ -50,6 +50,15 @@ for x in range(len(predictions)):
         #print("predicted ", predictions[x], "Acutally", y_test[x])
 print("Distance Accuracy is", 1-(inaccuracy/(len(predictions)*5)))
 
-playoffs= mlp.predict(real_thisYear)
-for y in range(len(playoffs)):
-    print(teams[y], ":", playoffs[y])
+print(f"Accuracy is {accuracy_score(y_test, gnbpredict)}")
+inaccuracy= 0 
+for x in range(len(gnbpredict)):
+    if gnbpredict[x] != y_test[x]:
+        inaccuracy += abs(gnbpredict[x]-y_test[x])
+        #print("predicted ", predictions[x], "Acutally", y_test[x])
+print("Distance Accuracy is", 1-(inaccuracy/(len(gnbpredict)*5)))
+
+playoffs1= mlp.predict(real_thisYear)
+playoffs2= gnb.predict(real_thisYear)
+for y in range(len(teams)):
+    print(teams[y], ":", playoffs1[y], ",", playoffs2[y]), ":", playoffs[y])
