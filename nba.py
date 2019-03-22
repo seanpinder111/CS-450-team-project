@@ -61,4 +61,4 @@ print("Distance Accuracy is", 1-(inaccuracy/(len(gnbpredict)*5)))
 playoffs1= mlp.predict(real_thisYear)
 playoffs2= gnb.predict(real_thisYear)
 for y in range(len(teams)):
-    print(teams[y], ":", playoffs1[y], ",", playoffs2[y]), ":", playoffs[y])
+    print(teams[y], ":", playoffs1[y], ",", playoffs2[y])
