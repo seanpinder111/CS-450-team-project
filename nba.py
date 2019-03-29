@@ -11,6 +11,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
@@ -68,7 +69,7 @@ for i in range(len(ty)):
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 X_train_d, X_test_d, y_train_d, y_test_d = train_test_split(X_d, y, test_size=0.25)
 
-mlp = MLPClassifier(hidden_layer_sizes=(30,), learning_rate_init=0.01, max_iter=10000)
+mlp = MLPClassifier(hidden_layer_sizes=(30,6), learning_rate_init=0.01, max_iter=10000)
 mlp.fit(X_train, y_train)
 
 gnb = GaussianNB()
@@ -82,6 +83,9 @@ svmpredict = clf.fit(X_train, y_train).predict(X_test)
 
 dtc = DecisionTreeClassifier(random_state=0, splitter='random')
 dtcpredict= dtc.fit(X_train_d, y_train_d).predict(X_test_d)
+
+mlr= MLPRegressor(hidden_layer_sizes=(30,6), learning_rate_init=0.01, max_iter=10000)
+mlrpredict= mlr.fit(X_train, y_train).predict(X_test)
 
 #################### PREDICTION ###################################
 
@@ -136,14 +140,32 @@ for x in range(len(dtcpredict)):
 print("Distance Accuracy is", 1-(inaccuracy/(len(dtcpredict)*5)))
 
 
+print("\n\n MLR RESULTS")
+inaccuracy= 0 
+temp= 0
+seeding= {29:5, 28:4, 27:3, 26:3, 25:2, 24:2, 23:2, 22:2, 21:1, 20:1, 19:1, 18:1, 17:1, 16:1, 15:1, 14:1, 13:0, 12:0, 11:0, 10:0, 9:0, 8:0, 7:0, 6:0, 5:0, 4:0, 3:0, 2:0, 1:0, 0:0}
+for x in range(len(mlrpredict)):
+    if mlrpredict[x] != y_test[x]:
+        inaccuracy += abs(mlrpredict[x]-y_test[x])
+        if mlrpredict[x] < 0:
+            mlrpredict[x] = 0
+        temp += abs(int(round(mlrpredict[x]))-y_test[x])
+print("Seeding Accuracy is", 1-(temp/(len(mlrpredict))))
+print("Regression Accuracy is", 1-(inaccuracy/(len(mlrpredict)*5)))
+
+playoffs6= mlr.predict(real_thisYear)
+playoffs7= np.argsort(np.argsort(mlr.predict(real_thisYear)))
+for x in range(len(playoffs7)):
+    playoffs6[x]= seeding[playoffs7[x]]
+
 # Predict for this year
 print("\n\n Predictions for 2019 Playoffs")
-print("\nTEAM: NN, NB,KNN,SVM, DT")
+print("\nTEAM: NN , NB ,KNN ,SVM , DT ,MLR")
 playoffs1= mlp.predict(real_thisYear)
 playoffs2= gnb.predict(real_thisYear)
 playoffs3= neigh.predict(real_thisYear)
 playoffs4= clf.predict(real_thisYear)
 playoffs5= dtc.predict(ty_d)
+playoffs8= mlr.predict(real_thisYear)
 for k in range(len(teams)):
-    print(teams[k], ":", playoffs1[k], ",", playoffs2[k], ",", playoffs3[k], ",", playoffs4[k], ",", playoffs5[k])
-path= dtc.decision_path(ty_d)
+    print(teams[k], ":", playoffs1[k], " ,", playoffs2[k], " ,", playoffs3[k], " ,", playoffs4[k], " ,", playoffs5[k], " ,", int(round(playoffs6[k])), " ,", int(round(playoffs8[k])))
