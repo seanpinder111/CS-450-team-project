@@ -15,6 +15,9 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+
 
 
 #################### IMPORT DATASET ##############################
@@ -87,6 +90,11 @@ dtcpredict= dtc.fit(X_train_d, y_train_d).predict(X_test_d)
 mlr= MLPRegressor(hidden_layer_sizes=(30,6), learning_rate_init=0.01, max_iter=10000)
 mlrpredict= mlr.fit(X_train, y_train).predict(X_test)
 
+rForest = RandomForestClassifier(n_estimators=100, max_depth=2, random_state=0)
+rForestPredict = rForest.fit(X_train, y_train).predict(X_test)
+
+boost = AdaBoostClassifier(n_estimators=50)
+boostPredict = boost.fit(X_train, y_train).predict(X_test)
 #################### PREDICTION ###################################
 
 print("\n\n NEURAL NET RESULTS")
@@ -157,15 +165,32 @@ playoffs6= mlr.predict(real_thisYear)
 playoffs7= np.argsort(np.argsort(mlr.predict(real_thisYear)))
 for x in range(len(playoffs7)):
     playoffs6[x]= seeding[playoffs7[x]]
+    
+    
+print("\n\n Random Forest RESULTS")  
+print(f"Accuracy is {accuracy_score(y_test, rForestPredict)}")
+inaccuracy= 0 
+for x in range(len(rForestPredict)):
+    if rForestPredict[x] != y_test[x]:
+        inaccuracy += abs(rForestPredict[x]-y_test[x])
+    
+print("\n\n AdaBoost RESULTS")  
+print(f"Accuracy is {accuracy_score(y_test, boostPredict)}")
+inaccuracy= 0 
+for x in range(len(boostPredict)):
+    if boostPredict[x] != y_test[x]:
+        inaccuracy += abs(boostPredict[x]-y_test[x])
 
 # Predict for this year
 print("\n\n Predictions for 2019 Playoffs")
-print("\nTEAM: NN , NB ,KNN ,SVM , DT ,MLR")
-playoffs1= mlp.predict(real_thisYear)
+print("\nTEAM: NN , NB ,KNN ,SVM , DT ,MLR      , RF , AB")
+playoffs1= mlp.predict(real_thisYear) 
 playoffs2= gnb.predict(real_thisYear)
 playoffs3= neigh.predict(real_thisYear)
 playoffs4= clf.predict(real_thisYear)
 playoffs5= dtc.predict(ty_d)
 playoffs8= mlr.predict(real_thisYear)
+playoffs9= rForest.predict(real_thisYear)
+playoffs10= boost.predict(real_thisYear)
 for k in range(len(teams)):
-    print(teams[k], ":", playoffs1[k], " ,", playoffs2[k], " ,", playoffs3[k], " ,", playoffs4[k], " ,", playoffs5[k], " ,", int(round(playoffs6[k])), " ,", int(round(playoffs8[k])))
+    print(teams[k], ":", playoffs1[k], " ,", playoffs2[k], " ,", playoffs3[k], " ,", playoffs4[k], " ,", playoffs5[k], " ,", int(round(playoffs6[k])), " ,", int(round(playoffs8[k])), " ,", playoffs9[k], " ,", playoffs10[k])
