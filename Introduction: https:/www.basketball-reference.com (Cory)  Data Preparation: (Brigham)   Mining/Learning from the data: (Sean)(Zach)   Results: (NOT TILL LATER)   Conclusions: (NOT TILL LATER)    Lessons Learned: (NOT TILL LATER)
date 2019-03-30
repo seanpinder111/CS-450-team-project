@@ -8,7 +8,8 @@ Data Preparation:
 
 
 Mining / Learning from the data:
-(Sean)
+
+We tried a number of different algorithms with the aim of choosing one or two different models with a high enough accuracy to be respectable. Among the algorithms we tried were a neural network, naive bayes, K-nearest neighbors, support vector machine, decision tree, and multi-layer perceptron regression. Ultimately the one that performed the best was our decision tree; the other advantage of using a decision tree being that we were able to visualize our model in a way that might be more difficult with other algorithms. 
 
 
 Results:
