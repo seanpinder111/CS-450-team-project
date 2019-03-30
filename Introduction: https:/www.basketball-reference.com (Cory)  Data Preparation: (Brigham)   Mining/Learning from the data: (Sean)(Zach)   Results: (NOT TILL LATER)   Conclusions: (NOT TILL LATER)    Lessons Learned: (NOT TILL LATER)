@@ -22,7 +22,11 @@ Conclusions:
 
 
 Lessons Learned:
-(Zach)
+We learned quite a few lessons regarding machine learning algorithms, types of data (and their uses), and learning strategies. 
+As mentioned above, we trained quite a few different algorithms in order to find the best fit for our application. We learned that this is actually a good strategy to finding the best algorithm for a given data set. Through our experimentations we found the best fit for our data. 
+	Next we learned how different types of data yield different results. We trained and tested on raw numeric, normalized, and we even tried binned data for learning. This helped concretize our textbook knowledge with real life applications. Each type of data mentioned has their own use but we found that normalized data worked the best for our learning purposes.
+	Finally we picked up some new strategies when it comes to machine learning. Collaboration is first and foremost on this list. As a group we were able to pool our knowledge to accomplish our task. Another strategy we found worked well has to do with the type of problem we were facing. It was important for us not to set unrealistic expectations for our predictions. As with any sport prediction there is no perfect recipe for winning. We definitely couldn’t expect that our predictions were going to get high accuracy scores, it all depends on the kind of prediction at hand.
+
 
 
 
