@@ -1,6 +1,26 @@
 Introduction:
 https://www.basketball-reference.com
-(Cory)
+Some members of our team are avid NBA fans. We thought it
+would be interesting to use the wealth of available basketball
+statistics to predict something about player or team performance.
+
+We considered several ideas including:
+* Prediction of individual performance for second year players
+* Prediction of NBA champions
+* Prediction of MVP for each year
+
+Finally we determined that we would try predicting the world champions
+given a team's stats for the season. Beyond just predicting whether or not
+a given team would win the title, we wanted to predict how far they would
+advance in the playoffs in a given year using a numeric ranking from 0-5,
+0 being a lottery year and 5 being the championship.
+
+This problem was interesting to us because with the playoffs coming up,
+we can use this year's data to predict the results with reasonable accuracy.
+More importantly, we hoped that we could find a way to isolate key statistics
+that lead to playoff success in NBA teams.
+
+We eventually found....... To Be Continued
 
 Data Preparation:
 (Brigham)
