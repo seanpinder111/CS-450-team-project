@@ -17,8 +17,7 @@ from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import AdaBoostClassifier
-
-
+from statsmodels import robust
 
 #################### IMPORT DATASET ##############################
 data = pd.read_csv('all_time_normal.csv', 
@@ -48,6 +47,7 @@ ty = real_thisYear.values
 
 
 ############################ BINNING ##################################
+# brute force
 X_d= np.zeros((len(X),len(X[0])))
 for i in range(len(X)):
     for j in range(len(X[0])):
@@ -67,6 +67,24 @@ for i in range(len(ty)):
         else:
             ty_d[i][j] = 1
 
+# Binning version 2
+# discretize the data
+def discretize(X, n_scale=1):
+
+    for c in X.columns:
+        loc = X[c].median()
+
+        # median absolute deviation of the column
+        scale = robust.mad(X[c])
+
+        bins = [-np.inf, loc - (scale * n_scale),
+                loc + (scale * n_scale), np.inf]
+        X[c] = pd.cut(X[c], bins, labels=[-1, 0, 1])
+
+    return X
+
+# bin the data
+binned_data = discretize(real_data)
 
 ##################### TRAINING ####################################
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
