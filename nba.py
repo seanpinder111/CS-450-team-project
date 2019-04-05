@@ -201,14 +201,17 @@ for x in range(len(boostPredict)):
 
 # Predict for this year
 print("\n\n Predictions for 2019 Playoffs")
-print("\nTEAM: NN , NB ,KNN ,SVM , DT ,MLR      , RF , AB")
-playoffs1= mlp.predict(real_thisYear) 
-playoffs2= gnb.predict(real_thisYear)
-playoffs3= neigh.predict(real_thisYear)
-playoffs4= clf.predict(real_thisYear)
-playoffs5= dtc.predict(ty_d)
-playoffs8= mlr.predict(real_thisYear)
-playoffs9= rForest.predict(real_thisYear)
-playoffs10= boost.predict(real_thisYear)
-for k in range(len(teams)):
-    print(teams[k], ":", playoffs1[k], " ,", playoffs2[k], " ,", playoffs3[k], " ,", playoffs4[k], " ,", playoffs5[k], " ,", int(round(playoffs6[k])), " ,", int(round(playoffs8[k])), " ,", playoffs9[k], " ,", playoffs10[k])
+print("\nTEAM: NN , NB ,KNN ,SVM , DT ,MLR , RF , AB ,AVG")
+ty_results = []
+ty_results.append(mlp.predict(real_thisYear)) 
+ty_results.append(gnb.predict(real_thisYear))
+ty_results.append(neigh.predict(real_thisYear))
+ty_results.append(clf.predict(real_thisYear))
+ty_results.append(dtc.predict(ty_d))
+ty_results.append(mlr.predict(real_thisYear).astype(int))
+ty_results.append(rForest.predict(real_thisYear))
+ty_results.append(boost.predict(real_thisYear))
+for i in range(len(teams)):
+    avg_pred = np.mean([r[i] for r in ty_results])
+    line = teams[i] + " : " + "  , ".join([str(r[i]) for r in ty_results]) + "  , " + str(int(round(avg_pred)))
+    print(line)
