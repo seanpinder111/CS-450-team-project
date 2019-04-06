@@ -215,3 +215,47 @@ for i in range(len(teams)):
     avg_pred = np.mean([r[i] for r in ty_results])
     line = teams[i] + " : " + "  , ".join([str(r[i]) for r in ty_results]) + "  , " + str(int(round(avg_pred)))
     print(line)
+    
+    
+##### Neural net average prediction
+east = ['ATL', 'BOS', 'BRK', 'CHO', 'CHI', 'CLE', 'DET', 'IND', 'MIA', 'MIL', 'NYK', 'ORL', 'PHI', 'TOR', 'WAS']
+west = ['DAL', 'DEN', 'GSW', 'HOU', 'LAC', 'LAL', 'MEM', 'MIN', 'NOP', 'OKC', 'PHO', 'POR', 'SAC', 'SAS', 'UTA']
+
+ty_mlp = []
+
+print("\nCalculating averages...")
+for i in range(0,1000):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    mlp.fit(X_train, y_train)
+    ty_mlp.append(mlp.predict(real_thisYear))
+
+
+averages = {}
+for i in range(len(teams)):
+    avg_pred = np.mean([r[i] for r in ty_results])
+    averages[teams[i]] = avg_pred
+    
+east_teams = [(t, averages[t]) for t in east]
+west_teams = [(t, averages[t]) for t in west]
+east_teams.sort(key=lambda x: x[1])
+west_teams.sort(key=lambda x: x[1])
+east_playoff_teams = east_teams[-8:]
+west_playoff_teams = west_teams[-8:]
+
+print("2019 Predictions: Neural Network")
+print("First Round Exits:")
+for i in range(0,4):
+    print(east_playoff_teams[i][0])
+    print(west_playoff_teams[i][0])
+print("Second Round Exits:")
+print(east_playoff_teams[4][0] + "," + east_playoff_teams[5][0])
+print(west_playoff_teams[4][0] + "," + west_playoff_teams[5][0])
+print("Conference Finals Exits:")
+print(west_playoff_teams[6][0] + "," + east_playoff_teams[6][0])
+print("Finals opponents:")
+print(west_playoff_teams[7][0] + "," + east_playoff_teams[7][0])
+print("World Champions:")
+if west_playoff_teams[7][1] > east_playoff_teams[7][1]:
+    print(west_playoff_teams[7][0])
+else:
+    print(east_playoff_teams[7][0])
