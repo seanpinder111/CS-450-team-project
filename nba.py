@@ -222,9 +222,9 @@ east = ['ATL', 'BOS', 'BRK', 'CHO', 'CHI', 'CLE', 'DET', 'IND', 'MIA', 'MIL', 'N
 west = ['DAL', 'DEN', 'GSW', 'HOU', 'LAC', 'LAL', 'MEM', 'MIN', 'NOP', 'OKC', 'PHO', 'POR', 'SAC', 'SAS', 'UTA']
 
 ty_mlp = []
-
+length= 1000
 print("\nCalculating averages...")
-for i in range(0,1000):
+for i in range(0,length):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     mlp.fit(X_train, y_train)
     ty_mlp.append(mlp.predict(real_thisYear))
@@ -259,3 +259,29 @@ if west_playoff_teams[7][1] > east_playoff_teams[7][1]:
     print(west_playoff_teams[7][0])
 else:
     print(east_playoff_teams[7][0])
+
+
+
+print("\n\nPredictions for 2019 Playoffs based on", length, "iterations in percent")
+print("TEAM, Lottery, 1st round, 2nd round, Conf Final, Finals, Champion")
+
+p2= np.asarray(ty_mlp)
+p3= np.zeros((6,len(teams)))
+for j in range(length):
+    for k in range(len(teams)):
+        if p2[j,k]==0:
+            p3[0,k] += 1
+        elif p2[j,k]==1:
+            p3[1,k] += 1
+        elif p2[j,k]==2:
+            p3[2,k] += 1
+        elif p2[j,k]==3:
+            p3[3,k] += 1
+        elif p2[j,k]==4:
+            p3[4,k] += 1
+        elif p2[j,k]==5:
+            p3[5,k] += 1
+p4= np.round(p3/length*100,2)
+for k in range(len(teams)):
+    #print(teams[k], p4[0,k],p4[1,k],p4[2,k],p4[3,k],p4[4,k],p4[5,k],p4[6,k])
+    print(teams[k], '%9s' % p4[0,k], '%10s' % p4[1,k], '%10s' % p4[2,k], '%11s' % p4[3,k], '%7s' % p4[4,k], '%9s' % p4[5,k])
